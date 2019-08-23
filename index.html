@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <header>
+    </header>
+    <main ><!--方法一：利用kbd标签来一个一个写div
+        <div>
+            <kbd>q</kbd>
+            <kbd>w</kbd>
+        </div>
+        方法二：利用js生成一个标签
+    -->
+        <div   class="wrapper" id="mainxxx"></div>
+    </main>
+    <script>
+        var keys =//keys也可以随意命名，只要与后文的一致就行
+         {
+            0:['q','w','e','r','t','y','u','i','o','p',],
+            1:['a','s','d','f','g','h','j','k','l',],
+            2:['z','x','c','v','b','n','m',],
+           length:3,
+        }
+
+        var hash = {
+            q:'qq.com',
+            w:'weibo.com',
+            e:'ele.com',
+            r:'renren.com',
+            t:'tianya.com',
+            y:'yamaha.com',
+            u:'uc.com',
+            i:undefined,
+            o:undefined,
+            p:'pc.com'
+        }
+
+        var hashInLocalStorage  = JSON.parse(localStorage.getItem('vvv')|| '{}')
+
+        if(hashInLocalStorage){
+            hash = hashInLocalStorage
+        }
+
+        var index = 0 //index是变量，随便是什么词汇都可以
+        while(index < keys['length'])//length为上文中的长度3，当index小于上文中的长度时，执行循环。key可为任何一个单词
+        {
+            var divxxx = document.createElement('div')//divxxx，mainxxx。kbdxxx都可以随意命名。
+            mainxxx.appendChild(divxxx)//mainxxx为前文的id。
+            var row = keys[index]//上述代码中keys的长度：第一数组，第二数组，第三数组0:['q','w','e','r','t','y','u','i','o','p',],
+            //connsole.log(row),打印，非常核心，会在控制台输出。console是一个对象，调用他的 log 方法，log就是console的一个api
+            var index2 = 0
+            while(index2 < row.length)//第二层循环。(循环几次写几次，比如说10，就是写10次循环，)
+            //row['length']指的是当index2小于上述三行中的数值时，即0-9.0-8.0-6时,row的长度等于key的指数
+            {
+                var kbdxxx = document.createElement('kbd')//创建一个kbd元素。
+                kbdxxx.textContent = row[index2]
+                //kbdxxx.textContent = 'hi'。意思为kbdxxx（kbd）中的中的文本标签内容是hi。
+                //row[index2]指的是上面三行数组中的qwertyuiop；asdfghjkl,zxcvbnm
+                divxxx.appendChild(kbdxxx)
+                var buttomx = document.createElement('button')//在kbd内创建一个按钮button元素
+                buttomx.id = row[index2]//给button元素创建一个id，id=数组中的数值
+                buttomx.textContent= 'E'
+                buttomx.onclick = function(qwertyu){
+                    key = qwertyu['target']['id']
+                    x = prompt('给我一个网址')//不能修改,将用户输入的网址存入x
+                    console.log('hash:', hash)
+                    hash[key] = x //hash变更 undefined
+                    localStorage.setItem('vvv', JSON.stringify(hash))//只要hash变更了就将hash存入vvv中
+                }
+                kbdxxx.appendChild(buttomx)
+                index2 = index2 + 1
+            }
+
+            index  =index + 1//到这一步一直在执行创建一个div，循环length长度次数。
+        }
+        //做监听键盘，即我点击什么就会出现对应的网站，xxx表示一个变量，但这个变量是需要能够监听的。
+        document.onkeypress = function(qwertyu){
+            console.log(qwertyu)//在控制台上显示。
+        //xxx表示一个变量(document)，但这个变量是需要能够监听的。(qwertyu)也是一个变量
+         //console.log('你按了一个变量')  console.log('这个变量是') console.log(qwertyu)
+         //console.log('你按了一个变量')
+         //console.log('这个变量是')
+         //console.log(qwertyu['key']) //即我按q键会出现q 
+            key = qwertyu['key']//第一步，知道用户按得什么键，['key']中的key是控制台的属性。
+           // console.log(key)
+            website = hash[key]//第二步，得到哈希数组中的key的变量，即按这个键到达相关的网站 
+            //console.log(website)
+            location.href ='http://' + website//第三步；打开这个网站(在当前地址栏中的地址等于第二步中的website的地址)
+        //打开新窗口显示的网站 location.href= 'http://' + website, '_blank'.因为是http协议，所以要加上
+        }
+        //方法2document.addEventListener('keypress', function(event) {
+            //var key = event.key;
+            //var url = hash[key];
+            //console.log(url)
+        //})
+    </script>
+    <footer>
+    </footer>
+</body>
+</html>
